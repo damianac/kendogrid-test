@@ -1,6 +1,26 @@
 <template>
   <div>
-     <kendo-grid :data-source="localDataSource">
+     <kendo-grid 
+      :data-source="localDataSource"
+      :editable="true"
+      v-on:detailinit="detailInit" 
+      v-on:databound="dataBound"
+      :toolbar="['create']">
+        <kendo-grid-column 
+          :field="'Name'"
+          :title="'Name'"
+          :width="100">
+        </kendo-grid-column>
+        <kendo-grid-column 
+          :field="'ValidFrom'"
+          :title="'ValidFrom'"
+          :width="100">
+        </kendo-grid-column>
+        <kendo-grid-column 
+          :command="['destroy']"
+          :title="'&nbsp;'"
+          :width="100">
+        </kendo-grid-column>
     </kendo-grid>
   </div>
 </template>
@@ -11,19 +31,32 @@ export default {
   data() {
     return {
       localDataSource: [{
-        "Name": 1,
-        "ValidFrom": "Chai",
-        "Quantity": 18,
-        "Price": 39,
+        "Name": "Test",
+        "ValidFrom": "Today",
       },
       {
-        "Name": 1,
-        "ValidFrom": "Chai",
-        "Quantity": {
-          "Name": 123,
-        },
-        "Price": 39,
+        "Name": "test2",
+        "ValidFrom": "Yestarday",
       }]
+    }
+  },
+  methods: {
+    detailInit: function (e) {
+      $('<div />').appendTo(e.detailCell).kendoGrid({
+        toolbar: [ "create" ],
+        columns: [ 
+          "Name",
+          "ValidFrom",
+          "Quantity",
+          "Price",
+          { command: [ "destroy" ] },
+        ],
+       
+        editable: true,
+      });
+    },
+    dataBound: function (ev) {
+      ev.sender.expandRow(ev.sender.tbody.find('tr.k-master-row').first())
     }
   }
 }

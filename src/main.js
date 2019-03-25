@@ -6,6 +6,7 @@ import store from './store.js'
 import '@progress/kendo-ui'
 import '@progress/kendo-theme-default/dist/all.css'
 import { Grid, GridInstaller } from '@progress/kendo-grid-vue-wrapper'
+import 'expose-loader?$!expose-loader?jQuery!jquery'
 Vue.use(GridInstaller)
 Vue.use(Vuetify);
 Vue.config.productionTip = false
